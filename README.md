@@ -8,7 +8,7 @@ This repo provisions an Azure Kubernetes Service (AKS) cluster using Terraform a
 
 - Azure CLI
 - Terraform
-- GitHub repo
+- GitHub repo 
 
 ---
 
