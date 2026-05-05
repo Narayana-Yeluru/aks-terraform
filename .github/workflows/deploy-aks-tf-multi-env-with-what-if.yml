@@ -1,4 +1,4 @@
-name: Terraform AKS Deploy (Multi-Env)
+name: AKS Multi-Env Deployment with WhatIf (Terraform)
 
 on:
   workflow_dispatch:
