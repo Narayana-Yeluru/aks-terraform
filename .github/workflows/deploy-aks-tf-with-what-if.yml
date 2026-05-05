@@ -1,3 +1,8 @@
+# =========================
+# Yes, we use terraform plan as a what-if equivalent, and we separate it into a dedicated stage 
+# before apply to ensure safe infrastructure changes. 
+# =========================
+
 name: AKS Dev Deployment with WhatIf (Terraform) 
 
 on:
