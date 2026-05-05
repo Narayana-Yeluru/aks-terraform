@@ -4,7 +4,7 @@
 
 ## 🏗️ Architecture Diagram
 
-<img width="1521" height="2031" alt="image" src="https://github.com/user-attachments/assets/4e870d0e-89a3-4d48-b33c-48a7f281bf3f" />
+<img width="1895" height="2507" alt="image" src="https://github.com/user-attachments/assets/a8f65be3-b87c-4922-af05-e9ffcf9a2b05" />
 
 
 ## 🔄 AKS Deployment Flow (Dev / Test / Prod)
