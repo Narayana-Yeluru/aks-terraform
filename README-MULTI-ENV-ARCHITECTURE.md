@@ -1,115 +1,105 @@
 ## 🚀 AKS Multi-Environment Architecture (Dev / Test / Prod)
 
+---
+
 ## 🏗️ Architecture Diagram
 
-```mermaid
-flowchart TD
+<img width="1521" height="2031" alt="image" src="https://github.com/user-attachments/assets/4e870d0e-89a3-4d48-b33c-48a7f281bf3f" />
 
-A[Developer] --> B[GitHub Repository]
 
-B --> C[GitHub Actions Pipeline]
+## 🔄 AKS Deployment Flow (Dev / Test / Prod)
 
-C --> D{Select Environment}
+### 1️⃣ Developer Trigger
+A developer manually triggers the GitHub Actions workflow and selects an environment:
+- dev
+- test
+- prod
 
-D -->|Dev| E1[dev.tfvars]
-D -->|Test| E2[test.tfvars]
-D -->|Prod| E3[prod.tfvars]
+---
 
-E1 --> F[Terraform Plan]
-E2 --> F
-E3 --> F
+### 2️⃣ Environment Selection
+The pipeline selects the correct Terraform variables file:
+- dev.tfvars → small development cluster
+- test.tfvars → staging environment
+- prod.tfvars → production environment
 
-F --> G[Terraform Root Module]
+👉 Same Terraform code, different configurations
 
-G --> H[AKS Module (Reusable)]
+---
 
-H --> I[Azure Resource Group]
+### 3️⃣ Terraform Initialization
+Terraform initializes backend and providers:
+- terraform init
 
-I --> J[AKS Cluster - Dev]
-I --> K[AKS Cluster - Test]
-I --> L[AKS Cluster - Prod]
+This prepares the working directory for deployment.
 
-J --> M[System Node Pool]
-K --> M
-L --> M
+---
 
-J --> N[Outputs: kubeconfig]
-K --> N
-L --> N
+### 4️⃣ Terraform Validation
+Terraform validates the code:
+- syntax check
+- module validation
+- variable validation
 
-C --> O[Optional Approval Gate for Prod]
-O --> L
-🔄 Flow Explanation
-1️⃣ Developer Trigger
+👉 Ensures infrastructure code is correct before execution
 
-A developer manually triggers GitHub Actions and selects an environment:
+---
 
-dev
-test
-prod
-2️⃣ Environment Selection
+### 5️⃣ Terraform Plan (What-If Equivalent)
+Terraform generates an execution plan:
+- terraform plan
 
-The pipeline loads the correct Terraform variables file:
+👉 Shows:
+- what resources will be created
+- what will be changed
+- what will be destroyed
 
-dev.tfvars → development setup
-test.tfvars → staging setup
-prod.tfvars → production setup
+✔ No changes are applied at this stage
 
-👉 Same code, different configuration
+---
 
-3️⃣ Terraform Plan (What-If Equivalent)
-
-Terraform runs:
-
-init
-validate
-plan
-
-👉 Shows what will change before deployment
-👉 No resources are created at this stage
-
-4️⃣ Root Module Execution
-
-The main.tf calls a reusable AKS module.
-
-👉 This avoids duplication and keeps infrastructure modular
-
-5️⃣ AKS Module Execution
-
-The module provisions:
-
-AKS cluster
-Node pools
-Managed identity
-Networking configuration
-6️⃣ Azure Deployment
-
-Resources created in Azure:
-
-Resource Group
-AKS cluster (per environment)
-Node pools
-Networking
-7️⃣ Outputs
-
-After deployment:
-
-kubeconfig
-cluster endpoint
-cluster metadata
-8️⃣ Production Safety
-
+### 6️⃣ Approval Gate (Optional for Prod)
 For production:
+- manual approval can be enabled in GitHub Actions
 
-manual approval gate can be enabled
-
-Flow becomes:
-
+👉 Flow:
 Plan → Approval → Apply
 
-🧠 Key Design Principles
-Modular Terraform architecture
-Environment separation using tfvars
-Safe deployment using plan stage
-Reusable AKS module
-Production-safe deployment workflow
+---
+
+### 7️⃣ Terraform Apply (Deployment)
+If approved, Terraform applies the changes:
+- terraform apply
+
+This provisions:
+- Azure Resource Group
+- AKS Cluster
+- Node Pools
+- Networking
+
+---
+
+### 8️⃣ AKS Module Execution
+The root module calls a reusable AKS module which handles:
+- cluster creation
+- node pool configuration
+- managed identity
+- networking setup
+
+---
+
+### 9️⃣ Outputs Generation
+After deployment, Terraform outputs:
+- kubeconfig (cluster access)
+- cluster endpoint
+- cluster details
+
+---
+
+## 🧠 Key Idea Summary
+
+- One codebase
+- Three environments (dev/test/prod)
+- Controlled deployments using plan stage
+- Reusable AKS module
+- Safe production deployment using approval gate
