@@ -33,6 +33,11 @@ Developer
 
 # 📁 Repository Structure
 
+<img width="447" height="692" alt="image" src="https://github.com/user-attachments/assets/62e857bd-4291-4ce0-b58f-ceee8debb2ca" />
+
+
+
+
 .github/workflows/
 - deploy-aks-tf-multi-env-with-what-if.yml   → Multi-env pipeline with what-if
 - deploy-aks-tf-with-what-if.yml            → Single env pipeline
