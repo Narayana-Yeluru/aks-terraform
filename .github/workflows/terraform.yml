@@ -1,10 +1,13 @@
-name: Terraform AKS Deploy
+name: AKS Dev Deployment (Terraform)
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+  workflow_dispatch: # manual deploy
+
+# Auto deployment: 
+# on:
+#  push:
+#    branches:
+#      - main
 
 jobs:
   terraform:
